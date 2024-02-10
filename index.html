@@ -1,0 +1,340 @@
+<head>
+    <title>The International Passport Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('internationalwomen.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 80%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .word {
+            margin: 20px 0;
+            font-size: 36px;
+            font-weight: bold;
+            color: blue;
+        }
+
+        .phrases {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .letters {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .letter {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .score {
+            font-size: 24px;
+            color: red;
+        }
+
+        .incorrect-guesses {
+            font-size: 18px;
+            color: #ff0000;
+            margin-bottom: 50px;
+        }
+
+        .reset-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .youtube-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .youtube-button {
+            flex: 1;
+            margin: 0 10px;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .youtube-button-red {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .youtube-button-blue {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .youtube-button-grey {
+            background-color: #555;
+            color: white;
+        }
+
+        .youtube-button:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <h1>The International Passport Game</h1>
+        <div class="score">Score: 0</div>
+        <div class="phrases">
+            <div>Are Women In:</div>
+        </div>
+        <div class="word">_ _ _ _ _ _ _ _ _ _ _</div>
+        <div>Checking For Brothas?</div>
+        <div class="letters"></div>
+        <div class="incorrect-guesses">Incorrect Guesses: 0 / Max: 6</div>
+    
+        
+        <div>
+            <div class="youtube-buttons">
+                <button class="youtube-button youtube-button-grey" onclick="window.open('https://www.youtube.com/@lovecrossingborders', '_blank')">Love Crossing Borders</button>
+                <button class="youtube-button youtube-button-red" onclick="window.open('https://www.youtube.com/@KingmakerStudios', '_blank')">Kingmaker Studios</button>
+                <button class="youtube-button youtube-button-blue" onclick="window.open('https://www.youtube.com/@internationalpassport', '_blank')">International Passport</button>
+                <button class="youtube-button youtube-button-grey" onclick="window.open('https://www.youtube.com/@ZoomToThailand', '_blank')">ZoomToThailand</button>
+            </div>
+        <script>
+            const countries = [
+                { name: "United Arab Emirates", difficulty: "hard" },
+                { name: "Germany", difficulty: "medium" },
+                { name: "Spain", difficulty: "medium" },
+                { name: "France", difficulty: "medium" },
+                { name: "Italy", difficulty: "medium" },
+                { name: "Netherlands", difficulty: "medium" },
+                { name: "Denmark", difficulty: "medium" },
+                { name: "Sweden", difficulty: "medium" },
+                { name: "Finland", difficulty: "medium" },
+                { name: "Iceland", difficulty: "medium" },
+                { name: "United States", difficulty: "easy" },
+                { name: "Canada", difficulty: "easy" },
+                { name: "Australia", difficulty: "easy" },
+                { name: "Japan", difficulty: "easy" },
+                { name: "Brazil", difficulty: "easy" },
+                // Additional countries (Easy)
+                { name: "China", difficulty: "easy" },
+                { name: "Iran", difficulty: "easy" },
+                { name: "India", difficulty: "easy" },
+                { name: "Mexico", difficulty: "easy" },
+                { name: "Russia", difficulty: "easy" },
+                // Additional countries (Medium)
+                { name: "Poland", difficulty: "medium" },
+                { name: "Hungary", difficulty: "medium" },
+                { name: "Turkey", difficulty: "medium" },
+                { name: "Thailand", difficulty: "medium" },
+                { name: "South Africa", difficulty: "medium" },
+                // Additional countries (Hard)
+                { name: "Kazakhstan", difficulty: "hard" },
+                { name: "Kyrgyzstan", difficulty: "hard" },
+                { name: "Uzbekistan", difficulty: "hard" },
+                { name: "Turkmenistan", difficulty: "hard" },
+                { name: "Tajikistan", difficulty: "hard" },
+                // Additional countries
+                { name: "Greece", difficulty: "medium" },
+                { name: "Egypt", difficulty: "medium" },
+                { name: "Argentina", difficulty: "medium" },
+                { name: "Norway", difficulty: "medium" },
+                { name: "Portugal", difficulty: "medium" },
+                { name: "Morocco", difficulty: "medium" },
+                { name: "Kenya", difficulty: "medium" },
+                { name: "Colombia", difficulty: "medium" },
+                { name: "Vietnam", difficulty: "medium" },
+                { name: "Philippines", difficulty: "medium" },
+                { name: "New Zealand", difficulty: "medium" },
+                { name: "Ireland", difficulty: "medium" },
+                { name: "Switzerland", difficulty: "medium" },
+                { name: "Austria", difficulty: "medium" },
+                { name: "Belgium", difficulty: "medium" },
+                { name: "Chile", difficulty: "medium" },
+                { name: "Sweden", difficulty: "medium" },
+                { name: "Peru", difficulty: "medium" },
+                { name: "Nigeria", difficulty: "medium" },
+                { name: "Saudi Arabia", difficulty: "medium" },
+                { name: "Pakistan", difficulty: "medium" },
+                { name: "Bangladesh", difficulty: "medium" },
+                { name: "Indonesia", difficulty: "medium" },
+                { name: "Nepal", difficulty: "medium" },
+                { name: "Bhutan", difficulty: "medium" },
+                { name: "Sri Lanka", difficulty: "medium" },
+                { name: "Maldives", difficulty: "medium" },
+                { name: "Afghanistan", difficulty: "medium" },
+                { name: "Iraq", difficulty: "medium" },
+                { name: "Syria", difficulty: "medium" },
+                { name: "Lebanon", difficulty: "medium" },
+            ];
+            let currentCountry;
+            let revealedLetters;
+            let score = 0;
+            let incorrectGuesses = 0;
+            let maxIncorrectGuesses;
+
+            function startGame() {
+                currentCountry = getRandomCountry();
+                revealedLetters = getInitialRevealedLetters(currentCountry);
+                maxIncorrectGuesses = getMaxIncorrectGuesses(currentCountry.difficulty);
+
+                updateDisplay();
+                createLetterButtons();
+            }
+
+            function getRandomCountry() {
+                const unusedCountries = countries.filter(country => !country.used);
+                if (unusedCountries.length === 0) {
+                    // Reset used flags when all countries are used
+                    countries.forEach(country => (country.used = false));
+                }
+                const randomIndex = Math.floor(Math.random() * unusedCountries.length);
+                const selectedCountry = unusedCountries[randomIndex];
+                selectedCountry.used = true;
+                return selectedCountry;
+            }
+
+            function getMaxIncorrectGuesses(difficulty) {
+                switch (difficulty) {
+                    case "easy":
+                        return 8;
+                    case "medium":
+                        return 6;
+                    case "hard":
+                        return 4;
+                    default:
+                        return 6;
+                }
+            }
+
+            function getInitialRevealedLetters(country) {
+                const name = country.name.toUpperCase();
+                let revealed = "";
+
+                for (let i = 0; i < name.length; i++) {
+                    if (Math.random() < 0.3 && i > 1) { // Reveal a letter with 30% probability
+                        revealed += name[i];
+                    } else {
+                        revealed += name[i] === ' ' ? ' ' : '_';
+                    }
+                }
+
+                return revealed;
+            }
+
+            function createLetterButtons() {
+                const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                let lettersContainer = document.querySelector(".letters");
+                lettersContainer.innerHTML = ""; // Clear previous letters
+
+                letters.split("").forEach(letter => {
+                    let letterEl = document.createElement("div");
+                    letterEl.classList.add("letter");
+                    letterEl.textContent = letter;
+                    letterEl.addEventListener("click", function () {
+                        handleGuess(letter.toLowerCase());
+                    });
+                    lettersContainer.appendChild(letterEl);
+                });
+            }
+
+            function handleGuess(guess) {
+                if (currentCountry.name.toUpperCase().includes(guess.toUpperCase())) {
+                    for (let i = 0; i < currentCountry.name.length; i++) {
+                        if (currentCountry.name[i].toUpperCase() === guess.toUpperCase() && revealedLetters[i] === '_') {
+                            revealedLetters = revealedLetters.substring(0, i) + currentCountry.name[i] + revealedLetters.substring(i + 1);
+                        }
+                    }
+
+                    updateDisplay();
+
+                    if (!revealedLetters.includes("_")) {
+                        alert(`Congratulations! You guessed the country: ${currentCountry.name}`);
+                        score++;
+                        document.querySelector(".score").textContent = `Score: ${score}`;
+                        startGame(); // Start a new game
+                    }
+                } else {
+                    incorrectGuesses++;
+                    updateDisplay();
+
+                    if (incorrectGuesses >= maxIncorrectGuesses) {
+                        alert(`Nice Job! Women in ${score} countries are checking for you! Now go book your trip!\nFinal Score: ${score}`);
+                        const resetConfirmation = confirm("Do you want to start a new game?");
+                        if (resetConfirmation) {
+                            score = 0;
+                            incorrectGuesses = 0;
+                            startGame(); // Start a new game
+                        } else {
+                            // Optionally, handle the case where the player chooses not to reset the game
+                        }
+                    } else {
+                        alert("Incorrect guess. Try again.");
+                    }
+                }
+            }
+
+            function updateDisplay() {
+                document.querySelector(".word").innerHTML = revealedLetters.split('').join(' ');
+                document.querySelector(".score").textContent = `Score: ${score}`;
+                document.querySelector(".incorrect-guesses").textContent = `Incorrect Guesses: ${incorrectGuesses} / Max: ${maxIncorrectGuesses}`;
+            }
+
+            // Start the game when the page loads
+            startGame();
+        </script>
+    </div>
+</body>
+
+</html>
+
+
+
+
+
+
+
